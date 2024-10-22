@@ -58,4 +58,59 @@
                 }
             }
         }
+        public function select($table, $rows = "*", $join = null, $where=null,$order=null, $limit = null){
+            if($this->tableExists($table)){
+                $sql = "SELECT $rows FROM $table ";
+                if($join != null){
+                    $sql .= " JOIN $join";
+                }
+                if($where != null){
+                    $sql .= " WHERE $where";
+                }
+                if($order != null){
+                    $sql .= " ORDER BY $order";
+                }
+                if($limit != null){
+                    $sql .= " LIMIT 0,$limit";
+                }
+                return  "$sql";
+            }else{
+                return false;
+            }
+        }
+        public function printTable($data){
+
+            echo "<table class='table table-striped'>";
+            echo "<thead><tr>";
+            echo "<th class = 'col'> Registration No. </td>";
+            echo "<th class = 'col'> Total Group members </td>";
+            echo "<th class = 'col'> Group ID </td>";
+            echo "<th class = 'col'> Email id </td>";
+            echo "<th class = 'col'> Name of Participant </td>";
+            echo "<th class = 'col'> Gender </td>";
+            echo "<th class = 'col'> Mobile Number </td>";
+            echo "<th class = 'col'> Age </td>";
+            echo "<th class = 'col'> State </td>";
+            echo "<th class = 'col'> City </td>";
+            echo "<th class = 'col'> Mode of travel </td>";
+            echo "<th class = 'col'> Travel Details </td>";
+            echo "<th class = 'col'> Arrival Date </td>";
+            echo "<th class = 'col'> Arrival Time </td>";
+            echo "<th class = 'col'> Departure Date </td>";
+            echo "<th class = 'col'> Departure Time </td>";
+            echo "<th class = 'col'> Food Packets during Departure	  </td>";
+            echo "<th class = 'col'> Accommodation </td>";
+            echo "<th class = 'col'> Special Requirements </td>";
+            echo "<th class = 'col'> Emergency Contact Details </td>";
+            echo "</tr></thead>";
+            foreach($data as $participant){
+                echo "<tr>";
+                foreach($participant as $p_detail){
+                    echo "<td> $p_detail </td>";
+                }
+                echo "</tr>";
+            }
+            echo "</table>";
+
+        }
     }      
