@@ -81,14 +81,14 @@
         public function printTable($data){
             //print_r(array_keys($data[0]));
             $i = 1;
-            $allowed = array ( 'participant', 'gender', 'age', 'reg_table' , 'acc_venue' );
-            $skipped = array ( 'reg','tot_mem','group_id','email','state','city','travel_mode','travel_number','arrive_date','arrive_time','dep_date','dep_time','food_packets','acc_status','special_req','emergency_contact' );
+            $allowed = array ( 'reg', 'participant', 'gender', 'age', 'reg_table' , 'acc_venue' );
+            $skipped = array ( 'tot_mem','group_id','email','state','city','travel_mode','travel_number','arrive_date','arrive_time','dep_date','dep_time','food_packets','acc_status','special_req','emergency_contact' );
             $final_array = array_intersect_key($data[0], array_flip($allowed));
             //print_r($final_array);
             echo "<table class='table table-striped'>";
             echo "<thead><tr>";
             echo "<th class = 'cols' > S No. </td>";
-            //echo "<th class = 'cols' > Registration No. </td>";
+            echo "<th class = 'cols' > Registration No. </td>";
             //echo "<th class = 'cols' > Total Group members </td>";
             //echo "<th class = 'cols' > Group ID </td>";
             //echo "<th class = 'cols' > Email id </td>";

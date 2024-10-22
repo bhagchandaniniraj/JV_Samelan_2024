@@ -8,6 +8,20 @@
 </head>
 <body>
     <div class="container">
+    <table>
+            <tr>
+                <td rowspan="2"><img style="max-width: 115px; max-height: 115px" src="logo/au.png" alt="Atmiya University"></td>
+                <td><h1>Atmiya University</h1></td>
+            </tr>
+            <tr>
+                <td><h2>26th National Jeevan Vidhya Samelan</h2></td>
+            </tr>
+        </table>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
+    <p></p>
         <?php
             include 'samelan.class.php';
             if($_POST){
