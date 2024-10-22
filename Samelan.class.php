@@ -7,5 +7,6 @@
         public function check($mobile){
             echo "<br/>Mobile Validation is complete";
             $mydb = new DBConnect();
+            //$mydb->tableExists("registration_details");
         }
     }

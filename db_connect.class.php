@@ -32,7 +32,7 @@
             }
         }
         public function tableExists($table){
-            $sql = "SHOW TABLES FROM $this->db_name LIKE '$table' ";
+            $sql = "SHOW TABLES FROM $this->db LIKE '$table' ";
             $tableInDB = $this->mysqli->query($sql);
             if($tableInDB){
                 if($tableInDB->num_rows == 1){
@@ -43,6 +43,4 @@
                 }
             }
         }
-    }
-
-       
+    }      
