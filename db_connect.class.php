@@ -78,24 +78,63 @@
                 return false;
             }
         }
+        public function update($keys){
+            
+        }
         public function printTable($data){
-            //print_r(array_keys($data[0]));
             $i = 1;
             $allowed = array ( 'reg', 'participant', 'gender', 'age', 'reg_table' , 'acc_venue' );
-            $skipped = array ( 'tot_mem','group_id','email','state','city','travel_mode','travel_number','arrive_date','arrive_time','dep_date','dep_time','food_packets','acc_status','special_req','emergency_contact' );
+            //$skipped = array ( 'tot_mem','group_id','email','state','city','travel_mode','travel_number','arrive_date','arrive_time','dep_date','dep_time','food_packets','acc_status','special_req','emergency_contact' );
             $final_array = array_intersect_key($data[0], array_flip($allowed));
-            //print_r($final_array);
+            $form = <<<EOT
+                <form action="submit_me.php" method="post">
+                    <input type="checkbox" name="tickme" value="<?=final_array['reg']" ?>
+                </form>
+            EOT;
+            echo <<<STRT
+            <form action="submit_me.php" method="post">
+            STRT;
+
             echo "<table class='table table-striped'>";
             echo "<thead><tr>";
             echo "<th class = 'cols' > S No. </td>";
             echo "<th class = 'cols' > Registration No. </td>";
+            echo "<th class = 'cols' > Name of Participant </td>";
+            echo "<th class = 'cols' > Gender </td>";
+            echo "<th class = 'cols' > Age </td>";
+            echo "<th class = 'cols' > Registration Table </td>";
+            echo "<th class = 'cols' > Accomodation Venue </td>";
+            echo "<th class = 'cols' > Register Yourself </td>";
+            echo "</tr></thead>";
+            
+            foreach($data as $participant){
+                $final_array = array_intersect_key($participant, array_flip($allowed));
+                echo "<tr><td>".$i++." </td>";
+                foreach($final_array as $key => $value){
+                    echo "<td> $value </td>";
+                }
+                echo "<td>";
+                echo <<<EOT
+                    <input type="checkbox" name="$final_array[reg]" value="1" >
+                EOT;
+                echo "</td>";
+                echo "</tr>";
+            }
+            echo "</table>";
+            echo <<<FIN
+                <input type="submit" name="l_submit" class = "btn btn-primary" value="Lock !!">
+                </form>
+
+            FIN;
+
+        }
+    }
+
+//For Future Use if needed....
             //echo "<th class = 'cols' > Total Group members </td>";
             //echo "<th class = 'cols' > Group ID </td>";
             //echo "<th class = 'cols' > Email id </td>";
-            echo "<th class = 'cols' > Name of Participant </td>";
-            echo "<th class = 'cols' > Gender </td>";
             //echo "<th class = 'cols' > Mobile Number </td>";
-            echo "<th class = 'cols' > Age </td>";
             //echo "<th class = 'cols' > State </td>";
             //echo "<th class = 'cols' > City </td>";
             //echo "<th class = 'cols' > Mode of travel </td>";
@@ -108,19 +147,3 @@
             //echo "<th class = 'cols' > Accommodation </td>";
             //echo "<th class = 'cols' > Special Requirements </td>";
             //echo "<th class = 'cols' > Emergency Contact Details </td>";
-            echo "<th class = 'cols' > Registration Table </td>";
-            echo "<th class = 'cols' > Accomodation Venue </td>";
-            echo "</tr></thead>";
-            
-            foreach($data as $participant){
-                $final_array = array_intersect_key($participant, array_flip($allowed));
-                echo "<tr><td>".$i++." </td>";
-                foreach($final_array as $key => $value){
-                    echo "<td> $value </td>";
-                }
-                echo "</tr>";
-            }
-            echo "</table>";
-
-        }
-    }      
