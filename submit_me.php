@@ -29,6 +29,13 @@
                     $myobj = new Samelan();
                     $myobj->check($_POST['mobile']);
                 }
+                if(isset($_POST['l_submit'])){
+                    if(in_array('Lock !!', $_POST)){
+                        $keys = array_keys($_POST);
+                        print_r($keys);
+                        $myobj->update($keys);
+                    }
+                }
             }
         ?>
     </div>
