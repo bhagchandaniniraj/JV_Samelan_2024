@@ -78,8 +78,27 @@
                 return false;
             }
         }
-        public function update($keys){
-            
+        public function update($table, $params=array(), $where = null){
+            $args = array();
+            if($this->tableExists($table)){
+                $sql = "UPDATE $table SET registered = NOW() ". implode(",", $args);
+                if($where != null){
+                    $sql .= " WHERE ";
+                    foreach($where as $key => $value){
+                        if($value === "l_submit") continue;
+                        $args[] = " reg = $value ";
+                    }
+                    $sql .= implode(" OR ", $args);
+                }
+                if($this->mysqli->query($sql)){
+                    array_push($this->result, $this->mysqli->affected_rows);
+                }else{
+                    array_push($this->result, $this->mysqli->error);
+                }
+                return $sql;
+            }else{
+                return false;
+            }
         }
         public function printTable($data){
             $i = 1;
@@ -122,7 +141,7 @@
             }
             echo "</table>";
             echo <<<FIN
-                <input type="submit" name="l_submit" class = "btn btn-primary" value="Lock !!">
+                <input type="submit" name="l_submit" class = "btn btn-primary" value="Register Here!">
                 </form>
 
             FIN;
