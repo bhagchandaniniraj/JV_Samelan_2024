@@ -8,6 +8,7 @@
         private $conn = false;
         private $mysqli = "";
         private $result = array();
+
         public function __construct()
         {
             if(!$this->conn){
@@ -25,12 +26,23 @@
                 if($this->mysqli_close()){
                     $this->conn = false;
                     return true;
-                }else{
+                }else{ 
                     return false;
                 }
             }
         }
-
+        public function tableExists($table){
+            $sql = "SHOW TABLES FROM $this->db_name LIKE '$table' ";
+            $tableInDB = $this->mysqli->query($sql);
+            if($tableInDB){
+                if($tableInDB->num_rows == 1){
+                    return true;
+                }else{
+                    array_push($this->result, $table." does not exists in the database");
+                    return false;
+                }
+            }
+        }
     }
 
        

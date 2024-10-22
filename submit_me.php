@@ -1,5 +1,5 @@
 <?php
-    include 'Samelan.class.php';
+    include 'samelan.class.php';
     print_r($_POST);
     if($_POST){
         if(isset($_POST['mobile'])){
