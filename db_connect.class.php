@@ -14,6 +14,19 @@
                 $this->mysqli = new mysqli($this->host,$this->username,$this->password,$this->db);
                 if($this->mysqli->connect_error){
                     array_push($this->result, $this->mysqli->connect_error);
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+        }
+        public function __destruct(){
+            if($this->conn){
+                if($this->mysqli_close()){
+                    $this->conn = false;
+                    return true;
+                }else{
+                    return false;
                 }
             }
         }
