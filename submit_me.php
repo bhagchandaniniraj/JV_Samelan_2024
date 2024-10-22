@@ -24,16 +24,16 @@
     <p></p>
         <?php
             include 'samelan.class.php';
+            $myobj = new Samelan();
             if($_POST){
                 if(isset($_POST['mobile'])){
                     $myobj = new Samelan();
                     $myobj->check($_POST['mobile']);
                 }
                 if(isset($_POST['l_submit'])){
-                    if(in_array('Lock !!', $_POST)){
+                    if(in_array('Register Here!', $_POST)){
                         $keys = array_keys($_POST);
-                        print_r($keys);
-                        $myobj->update($keys);
+                        $myobj->update('registration_details', ['registered' =>'CURRENT_TIMESTAMP'], $keys);
                     }
                 }
             }

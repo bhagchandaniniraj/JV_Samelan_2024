@@ -18,4 +18,14 @@ class Samelan{
         $res = $this->mydb->getResult();
         $this->mydb->printTable($res);
     }
+    public function update($table, $params = array(), $keys){
+        $sql = $this->mydb->update($table, $params, $keys);
+        echo "The number of registered marked Present are:  ";
+        echo $this->mydb->getResult()[0];
+        echo <<<CLCRET
+            <p></p>
+            <a href="/samelan" class="btn btn-primary"> Click here to Return</a>
+        CLCRET;
+        //print_r($this->mydb->getResult());
+    }
 }
