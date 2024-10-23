@@ -83,7 +83,22 @@
                 return false;
             }
         }
-        public function update($table, $params=array(), $where = null){
+        public function updateAbsent($table, $params=array(), $where = null){
+            $sql = $this->select($table, 'group_id', null, "reg = $where[0]");
+            $this->sql($sql);
+            $gid = $this->getResult()[0]['group_id'];
+            if($this->tableExists($table)){
+                 $sql = "UPDATE $table SET registered = NOW() and attd = 'A' ";
+                 $sql .=" WHERE group_id='$gid'";
+                 $sql .=" AND attd <> 'P'";
+            }
+            if($this->mysqli->query($sql)){
+                array_push($this->result, $this->mysqli->affected_rows);
+            }else{
+                array_push($this->result, $this->mysqli->error);
+            }
+        }
+        public function updatePresent($table, $params=array(), $where = null){
             $args = array();
             if($this->tableExists($table)){
                 $sql = "UPDATE $table SET registered = NOW(), attd = 'P' ". implode(",", $args);

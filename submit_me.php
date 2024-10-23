@@ -37,10 +37,9 @@
                 if(isset($_POST['l_submit'])){
                     if(in_array('Register Here!', $_POST)){
                         $keys = array_keys($_POST);
-                        // echo "Keys : ".count($keys);
                         if(count($keys) > 1){
-                            echo "I am here";
                             $myobj->update('registration_details', ['registered' =>'CURRENT_TIMESTAMP'], $keys);
+                           // $myobj->updateAbsent('registration_details',['registered' => 'NOW()'], $keys);
                         }else{
                             echo "Kindly select atleast one participant to register and mark Present in Pre-registration!!";
                             $myobj->mylocalprint();
