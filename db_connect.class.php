@@ -135,7 +135,7 @@
             STRT;
 
             echo "<table class='table table-striped'>";
-            echo $this->header();
+            echo $this->header("participant");
             
             foreach($data as $participant){
                 $final_array = array_intersect_key($participant, array_flip($allowed));
@@ -163,44 +163,67 @@
             FIN;
 
         }
-        public function list($table, $cols="*", $join=null, $where=null,$string){
+        public function list($table, $cols="*", $join=null, $where=null,$string, $status){
             $i = 1;
             $sql =  $this->select($table, $cols, $join, $where);
             $this->sql($sql);
             $data = $this->getResult();
             echo "$string";
-            $this->print_report($data);
+            $this->print_report($data, $status);
             echo "<hr><p></p><p></p><p></p>";
+            return $data;
         }
-        public function print_report($data){
+        public function print_report($data, $status){
             $i = 1;
-            $allowed = array ( 'reg', 'participant', 'gender', 'age', 'reg_table' , 'acc_venue', 'attd' );
+            $allowed = array ( 'reg', 'group_id', 'participant', 'gender', 'age', 'mobile', 'reg_table' , 'acc_venue', 'attd' );
             //$skipped = array ( 'tot_mem','group_id','email','state','city','travel_mode','travel_number','arrive_date','arrive_time','dep_date','dep_time','food_packets','acc_status','special_req','emergency_contact');
             $final_array = array_intersect_key($data[0], array_flip($allowed));
             echo "<table class='table table-striped'>";
-            echo $this->header();
+            echo $this->header("admin");
             foreach($data as $participant){
                 $final_array = array_intersect_key($participant, array_flip($allowed));
                 echo "<tr><td>".$i++." </td>";
                 foreach($final_array as $key => $value){
+                    if($key == "attd" && ($value == "P" || $value == "A")){
+                        $value = "$status";
+                    }else if ($key == "attd"){
+                        $value = "Online Pending";
+                    }
                     echo "<td> $value </td>";
                 }
                 echo "<td></tr>";
             }
             echo "</table>";
         }
-        public function header(){
-            $t_head = "<thead><tr>";
-            $t_head .= "<th class = 'cols' > S No. </td>";
-            $t_head .= "<th class = 'cols' > Registration No. </td>";
-            $t_head .= "<th class = 'cols' > Name of Participant </td>";
-            $t_head .= "<th class = 'cols' > Gender </td>";
-            $t_head .= "<th class = 'cols' > Age </td>";
-            $t_head .= "<th class = 'cols' > Registration Table </td>";
-            $t_head .= "<th class = 'cols' > Accomodation Venue </td>";
-            $t_head .= "<th class = 'cols' > Register Yourself </td>";
-            $t_head .= "</tr></thead>";
-            return $t_head;
+        public function header($status){
+            if($status == "admin"){
+                $t_head = "<thead><tr>";
+                $t_head .= "<th class = 'cols' > S No. </td>";
+                $t_head .= "<th class = 'cols' > Reg No. </td>";
+                $t_head .= "<th class = 'cols' > Group ID </td>";
+                $t_head .= "<th class = 'cols' > Name of Participant </td>";
+                $t_head .= "<th class = 'cols' > Gender </td>";
+                $t_head .= "<th class = 'cols' > Mobile Number </td>";
+                $t_head .= "<th class = 'cols' > Age </td>";
+                $t_head .= "<th class = 'cols' > Registration Table </td>";
+                $t_head .= "<th class = 'cols' > Accomodation Venue </td>";
+                $t_head .= "<th class = 'cols' > Register Yourself </td>";
+                $t_head .= "</tr></thead>";
+                return $t_head;
+            }else{
+                $t_head = "<thead><tr>";
+                $t_head .= "<th class = 'cols' > S No. </td>";
+                $t_head .= "<th class = 'cols' > Registration No. </td>";
+                $t_head .= "<th class = 'cols' > Name of Participant </td>";
+                $t_head .= "<th class = 'cols' > Gender </td>";
+                //$t_head .= "<th class = 'cols' > Mobile Number </td>";
+                $t_head .= "<th class = 'cols' > Age </td>";
+                $t_head .= "<th class = 'cols' > Registration Table </td>";
+                $t_head .= "<th class = 'cols' > Accomodation Venue </td>";
+                $t_head .= "<th class = 'cols' > Register Yourself </td>";
+                $t_head .= "</tr></thead>";
+                return $t_head;
+            }
         }
     }
 
