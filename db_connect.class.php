@@ -122,8 +122,8 @@
         }
         public function printTable($data){
             $i = 1;
-            $allowed = array ( 'reg', 'participant', 'gender', 'age', 'reg_table' , 'acc_venue' );
-            //$skipped = array ( 'tot_mem','group_id','email','state','city','travel_mode','travel_number','arrive_date','arrive_time','dep_date','dep_time','food_packets','acc_status','special_req','emergency_contact' );
+            $allowed = array ( 'reg', 'participant', 'gender', 'age', 'reg_table' , 'acc_venue', 'attd' );
+            //$skipped = array ( 'tot_mem','group_id','email','state','city','travel_mode','travel_number','arrive_date','arrive_time','dep_date','dep_time','food_packets','acc_status','special_req','emergency_contact');
             $final_array = array_intersect_key($data[0], array_flip($allowed));
             $form = <<<EOT
                 <form action="submit_me.php" method="post">
@@ -150,12 +150,18 @@
                 $final_array = array_intersect_key($participant, array_flip($allowed));
                 echo "<tr><td>".$i++." </td>";
                 foreach($final_array as $key => $value){
+                    if($key != 'attd') 
                     echo "<td> $value </td>";
                 }
                 echo "<td>";
-                echo <<<EOT
+                if($final_array['attd'] <> NULL){
+                    if($final_array['attd'] =='A') { echo 'Marked Absent'; }
+                    else{ echo 'Marked Present'; }
+                }else{
+                    echo <<<EOT
                     <input type="checkbox" name="$final_array[reg]" value="1" >
                 EOT;
+                }
                 echo "</td>";
                 echo "</tr>";
             }
@@ -163,7 +169,6 @@
             echo <<<FIN
                 <input type="submit" name="l_submit" class = "btn btn-primary" value="Register Here!">
                 </form>
-
             FIN;
 
         }

@@ -12,7 +12,7 @@ class Samelan{
 
     public function check($mobile){
         $this->mydb->tableExists("registration_details");
-        $sql = $this->mydb->select("registration_details", 'group_id' ,null, " MOBILE = '$mobile' ");
+        $sql = $this->mydb->select("registration_details", 'group_id' ,null, " MOBILE = '$mobile'");
         $this->mydb->sql($sql);
         $res = $this->mydb->getResult();
         if(count($res) >0 ){
