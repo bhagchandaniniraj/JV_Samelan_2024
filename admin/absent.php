@@ -28,14 +28,11 @@
     
     <?php 
         include '../db_connect.class.php';
+        include_once 'navbar.php';
         $mydb = new DBConnect();
-        $string = "<h4> Present Particpant List... </h4>";
-        $mydb->list('registration_details',"*", null,"attd='P'", $string);
-
         $string = "<h4> Absent Particpant List... </h4>";
-        $mydb->list('registration_details',"*", null,"attd='A'", $string);
-        $string = "<h4> Registration Pending List... </h4>";
-        $mydb->list('registration_details',"*", null,"registered is NULL", $string);
+        $mydb->list('registration_details',"*", null,"attd='A'", $string, "Marked Absent");
+        
     ?>
 
     </div>
