@@ -1,13 +1,18 @@
 <?php
     class DBConnect  
     {  
+        // private $host = "sql208.infinityfree.com"; // your host name  
+        // private $username = "if0_37010531"; // your user name  
+        // private $password = "ca5Z0pLOWXhiUq"; // your password  
+        // private $db = "if0_37010531_jv";  // your database name  
         private $host = "localhost"; // your host name  
         private $username = "root"; // your user name  
         private $password = ""; // your password  
-        private $db = "samelan_db"; // your database name  
+        private $db = "samelan_db";  // your database name  
         private $conn = false;
         private $mysqli = "";
         private $result = array();
+        private $rows;
 
         public function __construct()
         {
@@ -81,7 +86,7 @@
         public function update($table, $params=array(), $where = null){
             $args = array();
             if($this->tableExists($table)){
-                $sql = "UPDATE $table SET registered = NOW() ". implode(",", $args);
+                $sql = "UPDATE $table SET registered = NOW(), attd = 'P' ". implode(",", $args);
                 if($where != null){
                     $sql .= " WHERE ";
                     foreach($where as $key => $value){

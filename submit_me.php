@@ -24,16 +24,27 @@
     <p></p>
         <?php
             include 'samelan.class.php';
-            $myobj = new Samelan();
             if($_POST){
-                if(isset($_POST['mobile'])){
-                    $myobj = new Samelan();
+                $myobj = new Samelan();
+                //echo "l_submit: ".isset($_POST['l_submit']);
+                if(isset($_POST['mobile']) && is_numeric($_POST['mobile'])){
+                    // $myobj = new Samelan();
                     $myobj->check($_POST['mobile']);
+                }else if(!isset($_POST['l_submit']) && isset($_POST['mobile'])){
+                    echo "Please enter 10 Digit Mobile Number only!!";
+                    $myobj->mylocalprint();
                 }
                 if(isset($_POST['l_submit'])){
                     if(in_array('Register Here!', $_POST)){
                         $keys = array_keys($_POST);
-                        $myobj->update('registration_details', ['registered' =>'CURRENT_TIMESTAMP'], $keys);
+                        // echo "Keys : ".count($keys);
+                        if(count($keys) > 1){
+                            echo "I am here";
+                            $myobj->update('registration_details', ['registered' =>'CURRENT_TIMESTAMP'], $keys);
+                        }else{
+                            echo "Kindly select atleast one participant to register and mark Present in Pre-registration!!";
+                            $myobj->mylocalprint();
+                        }
                     }
                 }
             }
