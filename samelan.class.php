@@ -39,9 +39,5 @@ class Samelan{
             <p></p>
             <a href="/samelan" class="btn btn-primary"> Click here to Return</a>
         CLCRET;
-        //print_r($this->mydb->getResult());
     }
-    // public function updateAbsent($table, $params = array(), $keys){
-    //     $this->mydb->updateAbsent('registration_details',['registered' => 'NOW()'], $keys);
-    // }
 }
