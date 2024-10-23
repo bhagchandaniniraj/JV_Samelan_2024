@@ -135,16 +135,7 @@
             STRT;
 
             echo "<table class='table table-striped'>";
-            echo "<thead><tr>";
-            echo "<th class = 'cols' > S No. </td>";
-            echo "<th class = 'cols' > Registration No. </td>";
-            echo "<th class = 'cols' > Name of Participant </td>";
-            echo "<th class = 'cols' > Gender </td>";
-            echo "<th class = 'cols' > Age </td>";
-            echo "<th class = 'cols' > Registration Table </td>";
-            echo "<th class = 'cols' > Accomodation Venue </td>";
-            echo "<th class = 'cols' > Register Yourself </td>";
-            echo "</tr></thead>";
+            echo $this->header();
             
             foreach($data as $participant){
                 $final_array = array_intersect_key($participant, array_flip($allowed));
@@ -171,6 +162,45 @@
                 </form>
             FIN;
 
+        }
+        public function list($table, $cols="*", $join=null, $where=null,$string){
+            $i = 1;
+            $sql =  $this->select($table, $cols, $join, $where);
+            $this->sql($sql);
+            $data = $this->getResult();
+            echo "$string";
+            $this->print_report($data);
+            echo "<hr><p></p><p></p><p></p>";
+        }
+        public function print_report($data){
+            $i = 1;
+            $allowed = array ( 'reg', 'participant', 'gender', 'age', 'reg_table' , 'acc_venue', 'attd' );
+            //$skipped = array ( 'tot_mem','group_id','email','state','city','travel_mode','travel_number','arrive_date','arrive_time','dep_date','dep_time','food_packets','acc_status','special_req','emergency_contact');
+            $final_array = array_intersect_key($data[0], array_flip($allowed));
+            echo "<table class='table table-striped'>";
+            echo $this->header();
+            foreach($data as $participant){
+                $final_array = array_intersect_key($participant, array_flip($allowed));
+                echo "<tr><td>".$i++." </td>";
+                foreach($final_array as $key => $value){
+                    echo "<td> $value </td>";
+                }
+                echo "<td></tr>";
+            }
+            echo "</table>";
+        }
+        public function header(){
+            $t_head = "<thead><tr>";
+            $t_head .= "<th class = 'cols' > S No. </td>";
+            $t_head .= "<th class = 'cols' > Registration No. </td>";
+            $t_head .= "<th class = 'cols' > Name of Participant </td>";
+            $t_head .= "<th class = 'cols' > Gender </td>";
+            $t_head .= "<th class = 'cols' > Age </td>";
+            $t_head .= "<th class = 'cols' > Registration Table </td>";
+            $t_head .= "<th class = 'cols' > Accomodation Venue </td>";
+            $t_head .= "<th class = 'cols' > Register Yourself </td>";
+            $t_head .= "</tr></thead>";
+            return $t_head;
         }
     }
 
