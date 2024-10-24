@@ -27,11 +27,11 @@
             if($_POST){
                 $myobj = new Samelan();
                 //echo "l_submit: ".isset($_POST['l_submit']);
-                if(isset($_POST['mobile']) && is_numeric($_POST['mobile'])){
+                if(isset($_POST['uid']) && is_numeric($_POST['uid'])){
                     // $myobj = new Samelan();
-                    $myobj->check($_POST['mobile']);
-                }else if(!isset($_POST['l_submit']) && isset($_POST['mobile'])){
-                    echo "Please enter 10 Digit Mobile Number only!!";
+                    $myobj->check($_POST['uid']);
+                }else if(!isset($_POST['l_submit']) && isset($_POST['uid'])){
+                    echo "Please enter 10 Digit UID Number only!!";
                     $myobj->mylocalprint();
                 }
                 if(isset($_POST['l_submit'])){

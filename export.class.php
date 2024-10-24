@@ -6,7 +6,7 @@ class ExportFile{
 
         $f = fopen("$filename", 'w+');
         
-        $fields = array('reg','tot_mem','group_id','email','participant','gender','mobile',
+        $fields = array('reg','tot_mem','group_id','email','participant','gender','uid',
                             'age','state','city','travel_mode','travel_number','arrive_date','arrive_time',
                             'dep_date','dep_time','food_packets','acc_status','special_req','emergency_contact',
                             'reg_table','acc_venue','registered','attd');
