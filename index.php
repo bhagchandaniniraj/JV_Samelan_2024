@@ -28,8 +28,8 @@
     
     <form action="submit_me.php" method="POST">
         <div class="form-group">
-            <label for="Mobile">Enter Mobile Number: </label>
-            <input type="mobile" class="form-control" placeholder="10 Digit Mobile Number Please!!!" name="mobile">
+            <label for="uid">Enter UID Number: </label>
+            <input type="uid" class="form-control" placeholder="10 Digit UID Number Please!!!" name="uid">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

@@ -175,7 +175,7 @@
         }
         public function print_report($data, $status){
             $i = 1;
-            $allowed = array ( 'reg', 'group_id', 'participant', 'gender', 'age', 'mobile', 'reg_table' , 'acc_venue', 'attd' );
+            $allowed = array ( 'reg', 'group_id', 'participant', 'gender', 'age', 'uid', 'reg_table' , 'acc_venue', 'attd' );
             //$skipped = array ( 'tot_mem','group_id','email','state','city','travel_mode','travel_number','arrive_date','arrive_time','dep_date','dep_time','food_packets','acc_status','special_req','emergency_contact');
             $final_array = array_intersect_key($data[0], array_flip($allowed));
             echo "<table class='table table-striped'>";
@@ -231,7 +231,7 @@
             //echo "<th class = 'cols' > Total Group members </td>";
             //echo "<th class = 'cols' > Group ID </td>";
             //echo "<th class = 'cols' > Email id </td>";
-            //echo "<th class = 'cols' > Mobile Number </td>";
+            //echo "<th class = 'cols' > uid Number </td>";
             //echo "<th class = 'cols' > State </td>";
             //echo "<th class = 'cols' > City </td>";
             //echo "<th class = 'cols' > Mode of travel </td>";

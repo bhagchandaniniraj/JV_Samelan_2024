@@ -10,9 +10,9 @@ class Samelan{
         $this->mydb = new DBConnect();
     }
 
-    public function check($mobile){
+    public function check($uid){
         $this->mydb->tableExists("registration_details");
-        $sql = $this->mydb->select("registration_details", 'group_id' ,null, " MOBILE = '$mobile'");
+        $sql = $this->mydb->select("registration_details", 'group_id' ,null, " uid = '$uid'");
         $this->mydb->sql($sql);
         $res = $this->mydb->getResult();
         if(count($res) >0 ){
