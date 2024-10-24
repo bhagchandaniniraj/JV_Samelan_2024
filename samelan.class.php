@@ -32,6 +32,14 @@ class Samelan{
         $this->mydb->updateAbsent('registration_details',['registered' => 'NOW()'], $keys);
         echo "<br/>The number of registered marked Absent is/are:  ";
         echo $this->mydb->getResult()[0];
+        $params = ['reg', 'group_id', 'participant', 'gender', 'age', 'reg_table' , 'acc_venue', 'attd'];
+        $str = implode(", ", $params);
+        echo "<br/>";
+        $gid = $this->mydb->fetchGID($keys[0]);
+        $sql = $this->mydb->select('registration_details',$str, null, "group_id = '$gid[group_id]'");
+        $this->mydb->sql($sql);
+        $data = $this->mydb->getResult();
+        $this->mydb->printAcc($data);
         echo <<<CLCRET
             <p></p>
             <a href="/JV_Samelan_2024" class="btn btn-primary"> Click here to Return</a>

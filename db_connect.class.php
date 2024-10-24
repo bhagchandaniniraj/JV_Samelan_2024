@@ -125,7 +125,7 @@
         public function printTable($data){
             $i = 1;
             $allowed = array ( 'reg', 'participant', 'gender', 'age', 'reg_table' , 'acc_venue', 'attd' );
-            //$skipped = array ( 'tot_mem','group_id','email','state','city','travel_mode','travel_number','arrive_date','arrive_time','dep_date','dep_time','food_packets','acc_status','special_req','emergency_contact');
+            //$skipped = array ( 'tot_mem','group_id','email','state','city','travel_mode','travel_number','arrive_date','arrive_time','dep_date','dep_time','food_packets','acc_status','special_req','emergency_contact' , 'acc_venue');
             $final_array = array_intersect_key($data[0], array_flip($allowed));
             $form = <<<EOT
                 <form action="submit_me.php" method="post">
@@ -142,10 +142,23 @@
             foreach($data as $participant){
                 $final_array = array_intersect_key($participant, array_flip($allowed));
                 echo "<tr><td>".$i++." </td>";
-                foreach($final_array as $key => $value){
-                    if($key != 'attd') 
-                    echo "<td> $value </td>";
+                if($participant['attd'] != NULL){
+                    if($final_array['attd'] == "A"){
+                        $final_array['acc_venue'] = "---";
+                    }
+                    foreach($final_array as $key => $value){
+                        if($key != 'attd'){
+                            echo "<td>$value</td>";
+                        }
+                    }
+                }else{
+                    foreach($final_array as $key => $value){
+                        if($key != 'acc_venue'){
+                            echo "<td> $value </td>";
+                        }
+                    }
                 }
+                
                 echo "<td>";
                 if($final_array['attd'] <> NULL){
                     if($final_array['attd'] =='A') { echo 'Marked Absent'; }
@@ -165,6 +178,20 @@
             FIN;
 
         }
+        public function printAcc($data){
+            $display = "<table class='table'>";
+            $display .= $this->header("Acc");
+            foreach($data as $datum){
+                $display .= "<tr>";
+                if($datum['attd'] == "A"){ continue; }
+                foreach($datum as  $value){
+                    $display .= "<td>$value</td>";
+                }
+                $display .= "</tr>";
+            }
+            $display .= "</table>";
+            echo $display;
+        }
         public function list($table, $cols="*", $join=null, $where=null,$string, $status){
             $i = 1;
             $sql =  $this->select($table, $cols, $join, $where);
@@ -180,9 +207,14 @@
             }
             return $data;
         }
+        public function fetchGID($key){
+            $sql = "SELECT group_id from registration_details WHERE reg = '$key'";
+            $this->sql($sql);
+            return $this->getResult()[0];
+        }
         public function print_report($data, $status){
             $i = 1;
-            $allowed = array ( 'reg', 'group_id', 'participant', 'gender', 'age', 'uid', 'reg_table' , 'acc_venue', 'attd' );
+            $allowed = array ( 'reg', 'group_id', 'participant', 'gender', 'age', 'uid', 'reg_table' ,  'attd' );
             //$skipped = array ( 'tot_mem','group_id','email','state','city','travel_mode','travel_number','arrive_date','arrive_time','dep_date','dep_time','food_packets','acc_status','special_req','emergency_contact');
             $final_array = array_intersect_key($data[0], array_flip($allowed));
             echo "<table class='table table-striped'>";
@@ -213,6 +245,20 @@
                 $t_head .= "<th class = 'cols' > Mobile Number </td>";
                 $t_head .= "<th class = 'cols' > Age </td>";
                 $t_head .= "<th class = 'cols' > Registration Table </td>";
+                //$t_head .= "<th class = 'cols' > Accomodation Venue </td>";
+                $t_head .= "<th class = 'cols' > Register Yourself </td>";
+                $t_head .= "</tr></thead>";
+                return $t_head;
+            }
+            else if($status == "Acc"){
+                $t_head = "<thead><tr>";
+                $t_head .= "<th class = 'cols' > S No. </td>";
+                $t_head .= "<th class = 'cols' > Registration No. </td>";
+                $t_head .= "<th class = 'cols' > Name of Participant </td>";
+                $t_head .= "<th class = 'cols' > Gender </td>";
+                //$t_head .= "<th class = 'cols' > Mobile Number </td>";
+                $t_head .= "<th class = 'cols' > Age </td>";
+                $t_head .= "<th class = 'cols' > Registration Table </td>";
                 $t_head .= "<th class = 'cols' > Accomodation Venue </td>";
                 $t_head .= "<th class = 'cols' > Register Yourself </td>";
                 $t_head .= "</tr></thead>";
@@ -230,9 +276,9 @@
                 $t_head .= "<th class = 'cols' > Register Yourself </td>";
                 $t_head .= "</tr></thead>";
                 return $t_head;
-            }
         }
     }
+}
 
 //For Future Use if needed....
             //echo "<th class = 'cols' > Total Group members </td>";
