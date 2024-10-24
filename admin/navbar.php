@@ -6,16 +6,16 @@
   <div class="collapse navbar-collapse">
     <ul class="navbar-nav">
     <li class="nav-item active">
-        <a class="nav-link" href="/samelan/admin/">Entire List</a>
+        <a class="nav-link" href="./">Entire List</a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="/samelan/admin/present.php">Present List</a>
+        <a class="nav-link" href="./present.php">Present List</a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="/samelan/admin/absent.php">Absent List</a>
+        <a class="nav-link" href="./absent.php">Absent List</a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="/samelan/admin/pending.php">Pending List</a>
+        <a class="nav-link" href="./pending.php">Pending List</a>
       </li>
     </ul>
   </div>

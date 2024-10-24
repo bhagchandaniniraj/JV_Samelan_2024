@@ -13,7 +13,7 @@
     <div class="container">
         <table>
             <tr>
-                <td rowspan="2"><img style="max-width: 115px; max-height: 115px" src="/samelan/logo/au.png" alt="Atmiya University"></td>
+                <td rowspan="2"><img style="max-width: 115px; max-height: 115px" src="../logo/au.png" alt="Atmiya University"></td>
                 <td><h1>Atmiya University</h1></td>
             </tr>
             <tr>

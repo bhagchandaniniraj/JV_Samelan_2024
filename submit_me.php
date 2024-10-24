@@ -32,7 +32,11 @@
                     $myobj->check($_POST['uid']);
                 }else if(!isset($_POST['l_submit']) && isset($_POST['uid'])){
                     echo "Please enter 10 Digit UID Number only!!";
-                    $myobj->mylocalprint();
+                    echo <<<GOBACK
+                    <p></p>
+                    <p></p>
+                        <a href="/JV_Samelan_2024" class="btn btn-primary">Go Back</a>
+                    GOBACK;
                 }
                 if(isset($_POST['l_submit'])){
                     if(in_array('Register Here!', $_POST)){
@@ -42,7 +46,11 @@
                            // $myobj->updateAbsent('registration_details',['registered' => 'NOW()'], $keys);
                         }else{
                             echo "Kindly select atleast one participant to register and mark Present in Pre-registration!!";
-                            $myobj->mylocalprint();
+                            echo <<<GOBACK
+                            <p></p>
+                            <p></p>
+                                <a href="/JV_Samelan_2024" class="btn btn-primary">Go Back</a>
+                            GOBACK;
                         }
                     }
                 }

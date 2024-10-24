@@ -1,6 +1,6 @@
 <?php
     class DBConnect  
-    {  
+    {
         // private $host = "sql208.infinityfree.com"; // your host name  
         // private $username = "if0_37010531"; // your user name  
         // private $password = "ca5Z0pLOWXhiUq"; // your password  
@@ -88,10 +88,12 @@
             $this->sql($sql);
             $gid = $this->getResult()[0]['group_id'];
             if($this->tableExists($table)){
-                 $sql = "UPDATE $table SET registered = NOW() and attd = 'A' ";
+               // UPDATE `registration_details` SET `registered` = NOW(), `attd` = 'A' WHERE group_id='Group-3' and attd = "A";
+                 $sql = "UPDATE `registration_details` SET `registered` = NOW(), `attd` = 'A'";
                  $sql .=" WHERE group_id='$gid'";
-                 $sql .=" AND attd <> 'P'";
+                 $sql .=" and attd IS NULL";
             }
+            //echo $sql;
             if($this->mysqli->query($sql)){
                 array_push($this->result, $this->mysqli->affected_rows);
             }else{
@@ -169,8 +171,13 @@
             $this->sql($sql);
             $data = $this->getResult();
             echo "$string";
-            $this->print_report($data, $status);
-            echo "<hr><p></p><p></p><p></p>";
+            if ( count($data) > 0) {
+                $this->print_report($data, $status);
+                echo "<hr><p></p><p></p><p></p>";
+            }else{
+                echo "No one has marked Attendance Yet!!!";
+                echo "<hr><p></p><p></p><p></p>";
+            }
             return $data;
         }
         public function print_report($data, $status){

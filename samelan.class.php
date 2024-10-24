@@ -1,11 +1,8 @@
 <?php
 include 'db_connect.class.php';
-include 'goback.trait.php';
 
 class Samelan{
-    use GoBack;
     private $mydb;
-
     public function __construct(){
         $this->mydb = new DBConnect();
     }
@@ -24,7 +21,7 @@ class Samelan{
         }else{
             echo "No Data Found!!!";
             echo <<<GOBACK
-                <a href="/samelan" class="btn btn-primary">Go Back </a>
+                <a href="/" class="btn btn-primary">Go Back </a>
             GOBACK;
         }
     }
@@ -37,7 +34,7 @@ class Samelan{
         echo $this->mydb->getResult()[0];
         echo <<<CLCRET
             <p></p>
-            <a href="/samelan" class="btn btn-primary"> Click here to Return</a>
+            <a href="/JV_Samelan_2024" class="btn btn-primary"> Click here to Return</a>
         CLCRET;
     }
 }
