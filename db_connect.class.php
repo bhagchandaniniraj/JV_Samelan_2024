@@ -277,7 +277,21 @@
                 $t_head .= "<th class = 'cols' > Register Yourself </td>";
                 $t_head .= "</tr></thead>";
                 return $t_head;
-            }else{
+            }else if ($status = "report"){
+                    $t_head = "<thead><tr>";
+                    $t_head .= "<th class = 'cols' > S No. </td>";
+                    $t_head .= "<th class = 'cols' > Registration No. </td>";
+                    $t_head .= "<th class = 'cols' > Group ID </td>";
+                    $t_head .= "<th class = 'cols' > Name of Participant </td>";
+                    $t_head .= "<th class = 'cols' > Gender </td>";
+                    $t_head .= "<th class = 'cols' > Age </td>";
+                    $t_head .= "<th class = 'cols' > Mobile Number </td>";
+                    $t_head .= "<th class = 'cols' > Attendance </td>";
+                    $t_head .= "<th class = 'cols' > Reg Timings </td>";
+                    $t_head .= "</tr></thead>";
+                    return $t_head;
+            }
+            else{
                 $t_head = "<thead><tr>";
                 $t_head .= "<th class = 'cols' > S No. </td>";
                 $t_head .= "<th class = 'cols' > Registration No. </td>";
@@ -291,6 +305,29 @@
                 $t_head .= "</tr></thead>";
                 return $t_head;
         }
+    }
+    public function createPDF(){
+        $i=1;
+        $allowed = array ('reg', 'group_id', 'participant', 'gender', 'age', 'uid' , 'attd', "CONVERT_TZ(registered,'-07:00','+05:30')");
+        $str = implode(", ", $allowed);
+        //$skipped = array ( 'tot_mem','group_id','email','state','city','travel_mode','travel_number','arrive_date','arrive_time','dep_date','dep_time','food_packets','acc_status','special_req','emergency_contact', 'attd');
+         echo $str;
+        $sql = "SELECT $str from registration_details";
+        $this->sql($sql);
+        return $this->getResult();
+        //For future use !! if any
+        $var = "<p></p><p></p><p></p><table class='table'>";
+        $var .= $this->header("report");
+        foreach($this->getResult() as $participant){
+            $var .= "<tr>";
+            $var .= "<td>".$i++."</td>";
+            foreach($participant as $p){
+                $var .= "<td>$p</td>";
+            }
+            $var .=  "</tr>";
+        }
+        $var .= "</table>";
+        echo $var;
     }
 }
 
