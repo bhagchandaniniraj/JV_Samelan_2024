@@ -25,7 +25,8 @@
     <p></p>
     <p></p>
     <p></p>
-    
+    <form action="" method="post">
+        <input type="submit" class="btn btn-primary" value="PDF"></form>
     <?php 
         include '../db_connect.class.php';
         include('../export.class.php');
