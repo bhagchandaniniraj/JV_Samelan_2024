@@ -1,10 +1,10 @@
 <?php
     class DBConnect  
     {
-        // private $host = "sql208.infinityfree.com"; // your host name  
-        // private $username = "if0_37010531"; // your user name  
-        // private $password = "ca5Z0pLOWXhiUq"; // your password  
-        // private $db = "if0_37010531_jv";  // your database name  
+    //     private $host = "sql208.infinityfree.com"; // your host name  
+    //     private $username = "if0_37010531"; // your user name  
+    //     private $password = "ca5Z0pLOWXhiUq"; // your password  
+    //     private $db = "if0_37010531_jv";  // your database name  
         private $host = "localhost"; // your host name  
         private $username = "root"; // your user name  
         private $password = ""; // your password  
@@ -87,13 +87,19 @@
             $sql = $this->select($table, 'group_id', null, "reg = $where[0]");
             $this->sql($sql);
             $gid = $this->getResult()[0]['group_id'];
+            $timezone = "SET time_zone='+05:30'";
             if($this->tableExists($table)){
                // UPDATE `registration_details` SET `registered` = NOW(), `attd` = 'A' WHERE group_id='Group-3' and attd = "A";
                  $sql = "UPDATE `registration_details` SET `registered` = NOW(), `attd` = 'A'";
                  $sql .=" WHERE group_id='$gid'";
                  $sql .=" and attd IS NULL";
             }
-            //echo $sql;
+            // echo $sql;
+            if($this->mysqli->query($timezone)){
+                array_push($this->result, $this->mysqli->affected_rows);
+            }else{
+                array_push($this->result, $this->mysqli->error);
+            }
             if($this->mysqli->query($sql)){
                 array_push($this->result, $this->mysqli->affected_rows);
             }else{
@@ -102,6 +108,7 @@
         }
         public function updatePresent($table, $params=array(), $where = null){
             $args = array();
+            $timezone = "SET time_zone='+05:30'";
             if($this->tableExists($table)){
                 $sql = "UPDATE $table SET registered = NOW(), attd = 'P' ". implode(",", $args);
                 if($where != null){
@@ -112,11 +119,18 @@
                     }
                     $sql .= implode(" OR ", $args);
                 }
+                // echo $sql;
+                if($this->mysqli->query($timezone)){
+                    array_push($this->result, $this->mysqli->affected_rows);
+                }else{
+                    array_push($this->result, $this->mysqli->error);
+                }
                 if($this->mysqli->query($sql)){
                     array_push($this->result, $this->mysqli->affected_rows);
                 }else{
                     array_push($this->result, $this->mysqli->error);
                 }
+                
                 return $sql;
             }else{
                 return false;
@@ -148,7 +162,7 @@
                     }
                     foreach($final_array as $key => $value){
                         if($key != 'attd'){
-                            echo "<td>$value</td>";
+                            echo "<td>$value </td>";
                         }
                     }
                 }else{
