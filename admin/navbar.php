@@ -18,7 +18,7 @@
         <a class="nav-link" href="./pending.php">Pending List</a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="./download.php">Download Report</a>
+        <a class="nav-link" href="../export.class.php">Download Report</a>
       </li>
     </ul>
   </div>

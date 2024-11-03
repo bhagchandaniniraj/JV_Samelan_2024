@@ -25,8 +25,8 @@
  */
 
 // Include the main TCPDF library (search for installation path).
-require_once('./tcpdf/tcpdf.php');
-require_once('dbconnect.class.php');
+require_once('tcpdf/tcpdf.php');
+require_once('db_connect.class.php');
 
 // extend TCPF with custom functions
 class MYPDF extends TCPDF {
@@ -36,35 +36,90 @@ class MYPDF extends TCPDF {
         $mydb = new DBConnect();
         return $mydb->createPDF();
     }
+    //Page header
+    // public function Header() {
+    //     // Logo
+    //     $image_file = K_PATH_IMAGES.'logo_example.jpg';
+    //     $this->Image($image_file, 10, 10, 15, '', 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+    //     // Set font
+    //     $this->SetFont('times', 'B', 20);
+    //     // Title
+    //     $this->Cell(0, 15, 'Atmiya University', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+    //     $this->Ln();
+    //     $this->Cell(0, 15, 'Faculty of Engineering and Technology', 0, false, 'C', 0, '', 0, false, 'M', 'M');
+    // }
+    public function Header() {
+        // Logo
+        $logoFile = '../logo/au.png'; // Path to the logo
+        $this->Image($logoFile, 10, 5, 20, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+
+        // Set font for header text
+        $this->SetFont('times', 'B', 14);
+
+        // Title
+        $this->Cell(0, 0, 'ATMIYA UNIVERSITY', 0, 1, 'C', 0, '', 0, false, 'T', 'M');
+        
+        // Subtitle
+        $this->SetFont('times', '', 12);
+        $this->Cell(0, 0, 'FACULTY OF ENGINEERING AND TECHNOLOGY', 0, 1, 'C', 0, '', 0, false, 'T', 'M');
+        
+        // Event Title
+        $this->Cell(0, 0, '26TH JIVAN VIDHYA SAMELAN', 0, 1, 'C', 0, '', 0, false, 'T', 'M');
+
+        // Line break after header content
+        $this->Ln(5);
+    }
 
     // Colored table
     public function ColoredTable($header,$data) {
+        
         // Colors, line width and bold font
         $this->SetFillColor(255, 0, 0);
         $this->SetTextColor(255);
         $this->SetDrawColor(128, 0, 0);
         $this->SetLineWidth(0.3);
         $this->SetFont('', 'B');
+
         // Header
-        $w = array(40, 35, 40, 45);
+        $t_head = array("S No.", "Registration No.","Group ID","Name of Participant", 
+                        "Gender", "Age","Mobile Number", "Attendance","Reg Timings");
+        $w = array(8,22,65,10,10,24,8,38);
         $num_headers = count($header);
         for($i = 0; $i < $num_headers; ++$i) {
             $this->Cell($w[$i], 7, $header[$i], 1, 0, 'C', 1);
         }
         $this->Ln();
+        $num_pages = $this->getNumPages();
+
         // Color and font restoration
         $this->SetFillColor(224, 235, 255);
         $this->SetTextColor(0);
         $this->SetFont('');
+
         // Data
         $fill = 0;
+        $num_pages = $this->getNumPages();
         foreach($data as $row) {
-            $this->Cell($w[0], 6, $row[0], 'LR', 0, 'L', $fill);
-            $this->Cell($w[1], 6, $row[1], 'LR', 0, 'L', $fill);
-            $this->Cell($w[2], 6, number_format($row[2]), 'LR', 0, 'R', $fill);
-            $this->Cell($w[3], 6, number_format($row[3]), 'LR', 0, 'R', $fill);
-            $this->Ln();
-            $fill=!$fill;
+                // for($i = 0; $i < $num_headers; ++$i) {
+                //     $this->Cell($w[$i], 7, $header[$i], 1, 0, 'C', 1);
+                // }
+                // $this->Ln();
+                // $num_pages = $this->getNumPages();
+                $this->Cell($w[0], 6, $row['reg'], 'LR', 0, 'L', $fill);
+                $this->Cell($w[1], 6, $row['group_id'], 'LR', 0, 'L', $fill);
+                $this->Cell($w[2], 6, $row['participant'], 'LR', 0, 'L', $fill);
+                $this->Cell($w[3], 6, $row['gender'], 'LR', 0, 'L', $fill);
+                $this->Cell($w[4], 6, $row['age'], 'LR', 0, 'L', $fill);
+                $this->Cell($w[5], 6, $row['uid'], 'LR', 0, 'L', $fill);
+                $this->Cell($w[6], 6, $row['attd'], 'LR', 0, 'L', $fill);
+                $this->Cell($w[7], 6, $row['tmz'] , 'LR', 0, 'L', $fill);
+                if($this->getNumPages() < $num_pages){
+                    continue;
+                }else{
+                    $this->Ln();
+                    $fill=!$fill;
+                    $i=0;
+                }
         }
         $this->Cell(array_sum($w), 0, '', 'T');
     }
@@ -75,10 +130,10 @@ $pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8',
 
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
-$pdf->SetAuthor('Nicola Asuni');
-$pdf->SetTitle('TCPDF Example 011');
-$pdf->SetSubject('TCPDF Tutorial');
-$pdf->SetKeywords('TCPDF, PDF, example, test, guide');
+$pdf->SetAuthor('Niraj Bhagchandani');
+$pdf->SetTitle('Atmiya University');
+$pdf->SetSubject('26th Jivan Vidhya Samelan - 2024 Registration Details');
+$pdf->SetKeywords('26thJV, JV, Jivan Vidhya, 26th, 26th Jivan Vidhya');
 
 // set default header data
 $pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 011', PDF_HEADER_STRING);
@@ -110,23 +165,35 @@ if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
 // ---------------------------------------------------------
 
 // set font
-$pdf->SetFont('helvetica', '', 12);
+$pdf->SetFont('helvetica', '', 11);
 
 // add a page
 $pdf->AddPage();
 
 // column titles
-$header = array('Country', 'Capital', 'Area (sq km)', 'Pop. (thousands)');
+//$header = array('Country', 'Capital', 'Area (sq km)', 'Pop. (thousands)');
+$t_head[] = "S No.";
+//$t_head[] .= "Registration No.";
+$t_head[] .= "GID";
+$t_head[] .= "Name of Participant";
+$t_head[] .= "Gen";
+$t_head[] .= "Age";
+$t_head[] .= "Mobile";
+$t_head[] .= "P/A";
+$t_head[] .= "Reg Time";
+$w = $t_head;
+$header = $t_head;
 
 // data loading
 $data = $pdf->LoadData();
 
 // print colored table
 $pdf->ColoredTable($header, $data);
-
+//print_r($data);
 // ---------------------------------------------------------
 
-// close and output PDF document
+//close and output PDF document
+ob_end_clean();
 $pdf->Output('example_011.pdf', 'I');
 
 //============================================================+

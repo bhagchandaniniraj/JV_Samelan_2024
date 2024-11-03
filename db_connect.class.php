@@ -138,7 +138,7 @@
         }
         public function printTable($data){
             $i = 1;
-            $allowed = array ( 'reg', 'participant', 'gender', 'age', 'reg_table' , 'acc_venue', 'attd' );
+            $allowed = array ( 'reg', 'group_id', 'participant', 'gender', 'age', 'reg_table' , 'acc_venue', 'attd' );
             //$skipped = array ( 'tot_mem','group_id','email','state','city','travel_mode','travel_number','arrive_date','arrive_time','dep_date','dep_time','food_packets','acc_status','special_req','emergency_contact' , 'acc_venue');
             $final_array = array_intersect_key($data[0], array_flip($allowed));
             $form = <<<EOT
@@ -151,7 +151,7 @@
             STRT;
 
             echo "<table class='table table-striped'>";
-            echo $this->header("participant");
+            echo $this->header("Acc");
             
             foreach($data as $participant){
                 $final_array = array_intersect_key($participant, array_flip($allowed));
@@ -192,12 +192,15 @@
             FIN;
 
         }
+        
         public function printAcc($data){
+            $i = 1;
             $display = "<table class='table'>";
             $display .= $this->header("Acc");
             foreach($data as $datum){
                 $display .= "<tr>";
                 if($datum['attd'] == "A"){ continue; }
+                $display .=  "<td>".$i++."</td>";
                 foreach($datum as  $value){
                     $display .= "<td>$value</td>";
                 }
@@ -267,7 +270,8 @@
             else if($status == "Acc"){
                 $t_head = "<thead><tr>";
                 $t_head .= "<th class = 'cols' > S No. </td>";
-                $t_head .= "<th class = 'cols' > Registration No. </td>";
+                $t_head .= "<th class = 'cols' > Reg. No. </td>";
+                $t_head .= "<th class = 'cols' > Group ID </td>";
                 $t_head .= "<th class = 'cols' > Name of Participant </td>";
                 $t_head .= "<th class = 'cols' > Gender </td>";
                 //$t_head .= "<th class = 'cols' > Mobile Number </td>";
@@ -308,11 +312,12 @@
     }
     public function createPDF(){
         $i=1;
-        $allowed = array ('reg', 'group_id', 'participant', 'gender', 'age', 'uid' , 'attd', "CONVERT_TZ(registered,'-07:00','+05:30')");
+        $allowed = array ('reg', 'group_id', 'participant', 'gender', 'age', 'uid' , 'attd', 
+                    "DATE_FORMAT(CONVERT_TZ(registered,'-07:00','+05:30'),'%d/%m/%y %H:%m:%S') as 'tmz'");
         $str = implode(", ", $allowed);
         //$skipped = array ( 'tot_mem','group_id','email','state','city','travel_mode','travel_number','arrive_date','arrive_time','dep_date','dep_time','food_packets','acc_status','special_req','emergency_contact', 'attd');
-         echo $str;
         $sql = "SELECT $str from registration_details";
+        //echo "<br/>$sql</br>";
         $this->sql($sql);
         return $this->getResult();
         //For future use !! if any
