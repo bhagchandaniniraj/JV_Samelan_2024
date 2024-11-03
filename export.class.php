@@ -36,21 +36,9 @@ class MYPDF extends TCPDF {
         $mydb = new DBConnect();
         return $mydb->createPDF();
     }
-    //Page header
-    // public function Header() {
-    //     // Logo
-    //     $image_file = K_PATH_IMAGES.'logo_example.jpg';
-    //     $this->Image($image_file, 10, 10, 15, '', 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
-    //     // Set font
-    //     $this->SetFont('times', 'B', 20);
-    //     // Title
-    //     $this->Cell(0, 15, 'Atmiya University', 0, false, 'C', 0, '', 0, false, 'M', 'M');
-    //     $this->Ln();
-    //     $this->Cell(0, 15, 'Faculty of Engineering and Technology', 0, false, 'C', 0, '', 0, false, 'M', 'M');
-    // }
     public function Header() {
         // Logo
-        $logoFile = '../logo/au.png'; // Path to the logo
+        $logoFile = './logo/au.png'; // Path to the logo
         $this->Image($logoFile, 10, 5, 20, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
 
         // Set font for header text
@@ -99,13 +87,14 @@ class MYPDF extends TCPDF {
         // Data
         $fill = 0;
         $num_pages = $this->getNumPages();
+        $j = 1;
         foreach($data as $row) {
                 // for($i = 0; $i < $num_headers; ++$i) {
                 //     $this->Cell($w[$i], 7, $header[$i], 1, 0, 'C', 1);
                 // }
                 // $this->Ln();
                 // $num_pages = $this->getNumPages();
-                $this->Cell($w[0], 6, $row['reg'], 'LR', 0, 'L', $fill);
+                $this->Cell($w[0], 6, $j++ , 'LR', 0, 'L', $fill);
                 $this->Cell($w[1], 6, $row['group_id'], 'LR', 0, 'L', $fill);
                 $this->Cell($w[2], 6, $row['participant'], 'LR', 0, 'L', $fill);
                 $this->Cell($w[3], 6, $row['gender'], 'LR', 0, 'L', $fill);
@@ -113,13 +102,8 @@ class MYPDF extends TCPDF {
                 $this->Cell($w[5], 6, $row['uid'], 'LR', 0, 'L', $fill);
                 $this->Cell($w[6], 6, $row['attd'], 'LR', 0, 'L', $fill);
                 $this->Cell($w[7], 6, $row['tmz'] , 'LR', 0, 'L', $fill);
-                if($this->getNumPages() < $num_pages){
-                    continue;
-                }else{
-                    $this->Ln();
-                    $fill=!$fill;
-                    $i=0;
-                }
+                $this->Ln();
+                $fill=!$fill;
         }
         $this->Cell(array_sum($w), 0, '', 'T');
     }
@@ -165,7 +149,7 @@ if (@file_exists(dirname(__FILE__).'/lang/eng.php')) {
 // ---------------------------------------------------------
 
 // set font
-$pdf->SetFont('helvetica', '', 11);
+$pdf->SetFont('times', '', 11);
 
 // add a page
 $pdf->AddPage();

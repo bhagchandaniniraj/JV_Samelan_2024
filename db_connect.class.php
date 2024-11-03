@@ -1,10 +1,7 @@
 <?php
     class DBConnect  
     {
-    //     private $host = "sql208.infinityfree.com"; // your host name  
-    //     private $username = "if0_37010531"; // your user name  
-    //     private $password = "ca5Z0pLOWXhiUq"; // your password  
-    //     private $db = "if0_37010531_jv";  // your database name  
+          
         private $host = "localhost"; // your host name  
         private $username = "root"; // your user name  
         private $password = ""; // your password  
@@ -316,7 +313,8 @@
                     "DATE_FORMAT(CONVERT_TZ(registered,'-07:00','+05:30'),'%d/%m/%y %H:%m:%S') as 'tmz'");
         $str = implode(", ", $allowed);
         //$skipped = array ( 'tot_mem','group_id','email','state','city','travel_mode','travel_number','arrive_date','arrive_time','dep_date','dep_time','food_packets','acc_status','special_req','emergency_contact', 'attd');
-        $sql = "SELECT $str from registration_details";
+        $sql = "SELECT $str from registration_details ORDER BY registered desc, group_id, attd, reg";
+
         //echo "<br/>$sql</br>";
         $this->sql($sql);
         return $this->getResult();
