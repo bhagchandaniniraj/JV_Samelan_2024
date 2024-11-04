@@ -1,10 +1,6 @@
 <?php
     class DBConnect  
     {
-        // private $host = "sql208.infinityfree.com"; // your host name  
-        // private $username = "if0_37010531"; // your user name  
-        // private $password = "ca5Z0pLOWXhiUq"; // your password  
-        // private $db = "if0_37010531_jv";  // your database name
         private $host = "localhost"; // your host name  
         private $username = "root"; // your user name  
         private $password = ""; // your password  
