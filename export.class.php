@@ -69,7 +69,7 @@ class MYPDF extends TCPDF {
         $this->SetFont('', 'B');
 
         // Header
-        $t_head = array("S No.", "Registration No.","Group ID","Name of Participant", 
+        $t_head = array("SNo.", "Registration No.","Group ID","Name of Participant", 
                         "Gender", "Age","Mobile Number", "Attendance","Reg Timings");
         $w = array(8,22,65,10,10,24,8,38);
         $num_headers = count($header);
@@ -156,7 +156,7 @@ $pdf->AddPage();
 
 // column titles
 //$header = array('Country', 'Capital', 'Area (sq km)', 'Pop. (thousands)');
-$t_head[] = "S No.";
+$t_head[] = "SNo.";
 //$t_head[] .= "Registration No.";
 $t_head[] .= "GID";
 $t_head[] .= "Name of Participant";
