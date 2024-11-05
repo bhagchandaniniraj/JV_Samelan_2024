@@ -32,6 +32,7 @@
     <p></p>
     <?php
         include_once '../db_connect.class.php';
+        include_once 'navbar.php';
         echo "<h4>Day Wise - Gender Attendance Count</h4>";
         $mydb = new DBConnect();
         echo $mydb->displayAnalysis();
