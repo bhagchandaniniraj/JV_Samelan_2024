@@ -30,11 +30,9 @@
     <p></p>
     <p></p>
     <p></p>
-    <form action="" method="post">
-        <input type="submit" class="btn btn-primary" value="PDF"></form>
+    
     <?php 
-        include '../db_connect.class.php';
-        //include('../export.class.php');
+        include_once '../db_connect.class.php';
         include_once 'navbar.php';
         $mydb = new DBConnect();
         $string = "<h4> Present Particpant List... </h4>";
@@ -43,9 +41,6 @@
         $abs = $mydb->list('registration_details',"*", null,"attd='A'", $string, "Marked Absent");
         $string = "<h4> Registration Pending List... </h4>";
         $pen = $mydb->list('registration_details',"*", null,"registered is NULL", $string, "Online Pending");
-        //print_r($pre);
-        // $export = new ExportFile();
-        // $export->myfile($pre, "Present_List");
     ?>
 
     </div>
