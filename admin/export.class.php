@@ -92,7 +92,11 @@ class MYPDF extends TCPDF {
                 }
                 $this->Cell($w[0], 6, $j++ , 'LR', 0, 'L', $fill);
                 $this->Cell($w[1], 6, $row['group_id'], 'LR', 0, 'L', $fill);
-                $this->SetFont('freesans', '', 11);
+                if(!preg_match('/[^A-Za-z0-9 ]/', $row['participant'])){
+                    $this->SetFont('times', '', 11);
+                }else{
+                    $this->SetFont('freesans', '', 11);
+                }
                 $this->Cell($w[2], 6, $row['participant'], 'LR', 0, 'L', $fill);
                 $this->SetFont('times', '', 11);
                 $this->Cell($w[3], 6, $row['gender'], 'LR', 0, 'L', $fill);
