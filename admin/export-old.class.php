@@ -40,52 +40,49 @@ class MYPDF extends TCPDF {
 
     // Colored table
     public function ColoredTable($header,$data) {
+        $this->tableHeader();
+        $j=1;
+        $html='';
+        foreach ($data as $row) {
+            $html .= '<tr>';
+            //8,22,65,10,10,24,8,38
+            $html .= '<td width="8%">' . $j++ . '</td>';
+            $html .= '<td width="10%">' . $row['group_id'] . '</td>';
+            $html .= '<td width="15%">' . $row['participant'] . '</td>';
+            $html .= '<td width="10%">' . $row['gender'] . '</td>';
+            $html .= '<td width="10%">' . $row['age'] . '</td>';
+            $html .= '<td width="10%">' . $row['uid'] . '</td>';
+            $html .= '<td width="8%">' . $row['attd'] . '</td>';
+            $html .= '<td width="20%">' . $row['tmz'] . '</td>';
+            $html .= '</tr>';
+        }
+        $html .= '</table>';
         
-        // Colors, line width and bold font
-        $this->SetFillColor(3, 121, 132);
-        $this->SetTextColor(255);
-        $this->SetDrawColor(128, 0, 0);
-        $this->SetLineWidth(0.3);
-        $this->SetFont('', 'B');
+        // Print the table content (data rows)
+        $pdf->writeHTML($html, true, false, false, false);
+    }
+    public function tableHeader() {
+        // Set font
+        $this->SetFont('times', 'B', 12);
 
-        // Header
-        $t_head = array("SNo.", "Registration No.","Group ID","Name of Participant", 
-                        "Gender", "Age","Mobile Number", "Attendance","Reg Timings");
-        $w = array(8,22,65,10,10,24,8,38);
-        $num_headers = count($header);
-        for($i = 0; $i < $num_headers; ++$i) {
-            $this->Cell($w[$i], 7, $header[$i], 1, 0, 'C', 1);
-        }
-        $this->Ln();
-        $num_pages = $this->getNumPages();
+        // Define the table header
+        //8,22,65,10,10,24,8,38
+        $headerHTML = '
+        <table border="1" cellpadding="4">
+            <tr>
+                <th width="8%">Column 1</th>
+                <th width="10%">Column 2</th>
+                <th width="15%">Column 3</th>
+                <th width="10%">Column 4</th>
+                <th width="10%">Column 5</th>
+                <th width="10%">Column 6</th>
+                <th width="8%">Column 7</th>
+                <th width="20%">Column 8</th>
+            </tr>
+        </table>';
 
-        // Color and font restoration
-        $this->SetFillColor(224, 235, 255);
-        $this->SetTextColor(0);
-        $this->SetFont('');
-
-        // Data
-        $fill = 0;
-        $num_pages = $this->getNumPages();
-        $j = 1;
-        foreach($data as $row) {
-                // for($i = 0; $i < $num_headers; ++$i) {
-                //     $this->Cell($w[$i], 7, $header[$i], 1, 0, 'C', 1);
-                // }
-                // $this->Ln();
-                // $num_pages = $this->getNumPages();
-                $this->Cell($w[0], 6, $j++ , 'LR', 0, 'L', $fill);
-                $this->Cell($w[1], 6, $row['group_id'], 'LR', 0, 'L', $fill);
-                $this->Cell($w[2], 6, $row['participant'], 'LR', 0, 'L', $fill);
-                $this->Cell($w[3], 6, $row['gender'], 'LR', 0, 'L', $fill);
-                $this->Cell($w[4], 6, $row['age'], 'LR', 0, 'L', $fill);
-                $this->Cell($w[5], 6, $row['uid'], 'LR', 0, 'L', $fill);
-                $this->Cell($w[6], 6, $row['attd'], 'LR', 0, 'L', $fill);
-                $this->Cell($w[7], 6, $row['tmz'] , 'LR', 0, 'L', $fill);
-                $this->Ln();
-                $fill=!$fill;
-        }
-        $this->Cell(array_sum($w), 0, '', 'T');
+        // Add the header
+        $this->writeHTML($headerHTML, true, false, false, false);
     }
 }
 
@@ -152,7 +149,7 @@ $header = $t_head;
 $data = $pdf->LoadData();
 
 // print colored table
-$pdf->ColoredTable($header, $data);
+$pdf->ColoredTable($pdf, $data);
 //print_r($data);
 // ---------------------------------------------------------
 

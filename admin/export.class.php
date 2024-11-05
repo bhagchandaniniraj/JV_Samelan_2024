@@ -74,9 +74,27 @@ class MYPDF extends TCPDF {
                 // }
                 // $this->Ln();
                 // $num_pages = $this->getNumPages();
+                
+                if($num_pages != $this->getNumPages()){
+                    $this->SetFillColor(3, 121, 132);
+                $this->SetTextColor(255);
+                $this->SetDrawColor(128, 0, 0);
+                $this->SetLineWidth(0.3);
+                $this->SetFont('', 'B');
+                    for($i = 0; $i < $num_headers; ++$i) {
+                        $this->Cell($w[$i], 7, $header[$i], 1, 0, 'C', 1);
+                    }
+                    $this->Ln();
+                    $num_pages = $this->getNumPages();
+                    $this->SetFillColor(224, 235, 255);
+                    $this->SetTextColor(0);
+                    $this->SetFont('');
+                }
                 $this->Cell($w[0], 6, $j++ , 'LR', 0, 'L', $fill);
                 $this->Cell($w[1], 6, $row['group_id'], 'LR', 0, 'L', $fill);
+                $this->SetFont('freesans', '', 11);
                 $this->Cell($w[2], 6, $row['participant'], 'LR', 0, 'L', $fill);
+                $this->SetFont('times', '', 11);
                 $this->Cell($w[3], 6, $row['gender'], 'LR', 0, 'L', $fill);
                 $this->Cell($w[4], 6, $row['age'], 'LR', 0, 'L', $fill);
                 $this->Cell($w[5], 6, $row['uid'], 'LR', 0, 'L', $fill);
