@@ -15,10 +15,10 @@
         <a class="nav-link" href="./absent.php">Absent List</a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="./pending.php">Analysis Report</a>
+        <a class="nav-link" href="./pending.php">Pending List</a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="./analysis.php">Pending List</a>
+        <a class="nav-link" href="./analysis.php">Analysis Report</a>
       </li>
       <li class="nav-item active">
         <a class="nav-link" href="./export.class.php">Download Report</a>
