@@ -1,5 +1,11 @@
 <?php
-   // include 'Samelan.class.php';
+    // include 'Samelan.class.php';
+    // Check if the user is logged in
+    session_start();
+    if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+        header("Location: index.php");
+        exit();
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">

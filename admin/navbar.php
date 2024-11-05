@@ -6,7 +6,7 @@
   <div class="collapse navbar-collapse">
     <ul class="navbar-nav">
     <li class="nav-item active">
-        <a class="nav-link" href="./">Entire List</a>
+        <a class="nav-link" href="./entire-list.php">Entire List</a>
       </li>
       <li class="nav-item active">
         <a class="nav-link" href="./present.php">Present List</a>
@@ -19,6 +19,9 @@
       </li>
       <li class="nav-item active">
         <a class="nav-link" href="../export.class.php">Download Report</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="./logout.php">Logout</a>
       </li>
     </ul>
   </div>
