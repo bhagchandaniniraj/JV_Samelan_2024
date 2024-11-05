@@ -10,6 +10,48 @@
         private $result = array();
         private $rows;
 
+        public function displayAnalysis(){
+            $j=1; $sum = 0;
+            $sql = "SELECT case when isnull(date(registered)) then ' - ' ELSE date(registered) end as dt, case when gender = 'M' then 'Male' when gender = 'F' then 'Female' when gender = 'K' then 'Kid(s)' end as gender, case when attd = 'P' then 'Present' when attd = 'A' then 'Absent' when isnull(attd) then 'Reg. Pending' end as attendance , count(*) as 'Total Count' FROM `registration_details` group by date(registered), gender, attd order by date(registered) desc";
+            $this->sql($sql);
+            $table ="<table class='table table-striped table-bordered table-hover table-sm'>";
+            $table .= "<thead><tr><th scope='col'>#</th><th scope='col'>Date</th><th scope='col'>Gender</th>
+                        <th scope='col'>P/A</th><th scope='col'>Count</th></tr></thead><tbody>";
+            foreach($this->getResult() as $counts){
+                $table .="<tr>";
+                $table .="<td>".$j++."</td>";
+                foreach($counts as $count){
+                    $table .= "<td>".$count."</td>";
+                }
+                $sum += $count;
+                $table .="</tr>";
+            }
+            $table .= "<b><td></td><td></td><td></td><td>Total:</td><td>$sum</td></b>";
+            $table .="</tbody></table>";
+            return $table;
+        }
+        public function genderWise(){
+            $j = 1; $sum = 0;
+            $sql = "SELECT case when gender = 'M' then 'Male' when gender = 'F' then 'Female' else 'Kid(s)' end as gender, case when isnull(attd) then 'DNA' else attd end as attendance, count(*) as total FROM `registration_details` group by gender, attd";
+            $this->sql($sql);
+            $data = $this->getResult();
+            $table ="<table class='table table-striped table-bordered table-hover table-sm'>";
+            $table .= "<thead><tr><th scope='col'>#</th><th scope='col'>Gender</th><th scope='col'>Attendance</th>
+                        <th scope='col'>Count</th></tr></thead><tbody>";
+            foreach($data as $counts){
+                $table .="<tr>";
+                $table .="<td>".$j++."</td>";
+                foreach($counts as $count){
+                    $table .= "<td>".$count."</td>";
+                }
+                $sum += $count;
+                $table .="</tr>";
+            }
+            $table .= "<b><td></td><td></td><td>Total:</td><td>$sum</td></b>";
+            $table .="</tbody></table>";
+            return $table;
+        }
+
         public function __construct()
         {
             if(!$this->conn){
