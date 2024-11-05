@@ -1,34 +1,14 @@
 <?php
-//============================================================+
-// File name   : example_011.php
-// Begin       : 2008-03-04
-// Last Update : 2013-05-14
-//
-// Description : Example 011 for TCPDF class
-//               Colored Table (very simple table)
-//
-// Author: Nicola Asuni
-//
-// (c) Copyright:
-//               Nicola Asuni
-//               Tecnick.com LTD
-//               www.tecnick.com
-//               info@tecnick.com
-//============================================================+
-
-/**
- * Creates an example PDF TEST document using TCPDF
- * @package com.tecnick.tcpdf
- * @abstract TCPDF - Example: Colored Table
- * @author Nicola Asuni
- * @since 2008-03-04
- */
+session_start();
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    header("Location: index.php");
+    exit();
+}
 
 // Include the main TCPDF library (search for installation path).
-require_once('tcpdf/tcpdf.php');
-require_once('db_connect.class.php');
+require_once('../tcpdf/tcpdf.php');
+require_once('../db_connect.class.php');
 
-// extend TCPF with custom functions
 class MYPDF extends TCPDF {
 
     // Load table data from file
@@ -38,7 +18,7 @@ class MYPDF extends TCPDF {
     }
     public function Header() {
         // Logo
-        $logoFile = './logo/au.png'; // Path to the logo
+        $logoFile = '../logo/au.png'; // Path to the logo
         $this->Image($logoFile, 10, 5, 20, '', 'PNG', '', 'T', false, 300, '', false, false, 0, false, false, false);
 
         // Set font for header text

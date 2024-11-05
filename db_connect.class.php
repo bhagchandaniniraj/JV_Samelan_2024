@@ -308,8 +308,10 @@
     }
     public function createPDF(){
         $i=1;
+        // $allowed = array ('reg', 'group_id', 'participant', 'gender', 'age', 'uid' , 'attd', 
+        //             "DATE_FORMAT(CONVERT_TZ(registered,'-07:00','+05:30'),'%d/%m/%y %H:%i:%S') as 'tmz'");
         $allowed = array ('reg', 'group_id', 'participant', 'gender', 'age', 'uid' , 'attd', 
-                    "DATE_FORMAT(CONVERT_TZ(registered,'-07:00','+05:30'),'%d/%m/%y %H:%i:%S') as 'tmz'");
+                    "DATE_FORMAT(registered,'%d/%m/%y %H:%i:%S') as 'tmz'");
         $str = implode(", ", $allowed);
         //$skipped = array ( 'tot_mem','group_id','email','state','city','travel_mode','travel_number','arrive_date','arrive_time','dep_date','dep_time','food_packets','acc_status','special_req','emergency_contact', 'attd');
         $sql = "SELECT $str from registration_details ORDER BY registered desc, group_id, attd, reg";
