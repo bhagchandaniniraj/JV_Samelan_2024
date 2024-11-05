@@ -28,10 +28,10 @@ class Samelan{
     public function update($table, $params = array(), $keys){
         $sql = $this->mydb->updatePresent($table, $params, $keys);
         //echo "<br/>The number of registered marked Present is/are:  ";
-        echo $this->mydb->getResult()[0];
+        //echo $this->mydb->getResult()[0];
         $this->mydb->updateAbsent('registration_details',['registered' => 'NOW()'], $keys);
         //echo "<br/>The number of registered marked Absent is/are:  ";
-        echo $this->mydb->getResult()[0];
+        //echo $this->mydb->getResult()[0];
         $params = ['reg', 'group_id', 'participant', 'gender', 'age', 'reg_table' , 'acc_venue', 'attd'];
         $str = implode(", ", $params);
         echo "<br/>";
