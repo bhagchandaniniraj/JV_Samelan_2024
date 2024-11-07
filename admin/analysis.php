@@ -35,19 +35,19 @@
         include_once '../db_connect.class.php';
         include_once 'navbar.php';
         $disp[] = "<div class='row'><div class='col'></div><div class='col-8'>";
-        $disp[] = "</div><div class='col'></div></div>";
+        $disp[] = "</div><div class='col'></div></div><hr>";
         
         $mydb = new DBConnect();
+
         echo $disp[0];
-        echo "<h4>Day Wise - Gender Attendance Count</h4>";
-        echo $mydb->displayAnalysis();
+        echo "<h4>Individual Hostel Total Attendance Count</h4>";
+        echo $mydb->attendanceCount();
         echo $disp[1];
+
         echo $disp[0];
         echo "<h4>Individual Hostel Count</h4>";
         echo $mydb->hostelCount();
         echo $disp[1];
-
-        
         
         echo $disp[0];
         echo "<h4>Statewise Attendance Count</h4>";
@@ -63,6 +63,11 @@
         echo "<h4>Genderwise Attendance Count</h4>";
         echo $mydb->genderWise();
         echo "<span class='small'>*Note: DNA = 'Registered but Did Not Appear'</span>";
+        echo $disp[1];
+
+        echo $disp[0];
+        echo "<h4>Day Wise - Gender Attendance Count</h4>";
+        echo $mydb->displayAnalysis();
         echo $disp[1];
         
     ?>
