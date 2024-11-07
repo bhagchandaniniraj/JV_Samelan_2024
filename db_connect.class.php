@@ -197,8 +197,8 @@
         }
         public function printTable($data){
             $i = 1;
-            $allowed = array ( 'reg', 'group_id', 'participant', 'gender', 'age', 'reg_table' , 'acc_venue', 'attd' );
-            //$skipped = array ( 'tot_mem','group_id','email','state','city','travel_mode','travel_number','arrive_date','arrive_time','dep_date','dep_time','food_packets','acc_status','special_req','emergency_contact' , 'acc_venue');
+            $allowed = array ( 'reg', 'group_id', 'participant', 'gender', 'age',  'acc_venue', 'attd' );
+            //$skipped = array ( 'tot_mem','group_id','email','state','city','travel_mode','reg_table','travel_number','arrive_date','arrive_time','dep_date','dep_time','food_packets','acc_status','special_req','emergency_contact' , 'acc_venue');
             $final_array = array_intersect_key($data[0], array_flip($allowed));
             $form = <<<EOT
                 <form action="submit_me.php" method="post">
@@ -209,7 +209,7 @@
             <form action="submit_me.php" method="post">
             STRT;
 
-            echo "<table class='table table-striped'>";
+            echo "<table class='table table-striped table-sm'>";
             echo $this->header("Acc");
             
             foreach($data as $participant){
@@ -254,7 +254,7 @@
         
         public function printAcc($data){
             $i = 1;
-            $display = "<table class='table'>";
+            $display = "<table class='table table-sm'>";
             $display .= $this->header("Acc");
             foreach($data as $datum){
                 $display .= "<tr>";
@@ -290,10 +290,10 @@
         }
         public function print_report($data, $status){
             $i = 1;
-            $allowed = array ( 'reg', 'group_id', 'participant', 'gender', 'age', 'uid', 'reg_table' ,  'attd' );
-            //$skipped = array ( 'tot_mem','group_id','email','state','city','travel_mode','travel_number','arrive_date','arrive_time','dep_date','dep_time','food_packets','acc_status','special_req','emergency_contact');
+            $allowed = array ( 'reg', 'group_id', 'participant', 'gender', 'age', 'uid', 'attd' );
+            //$skipped = array ( 'tot_mem','group_id','email','state','city','travel_mode','reg_table','travel_number','arrive_date','arrive_time','dep_date','dep_time','food_packets','acc_status','special_req','emergency_contact');
             $final_array = array_intersect_key($data[0], array_flip($allowed));
-            echo "<table class='table table-striped'>";
+            echo "<table class='table table-striped table-sm'>";
             echo $this->header("admin");
             foreach($data as $participant){
                 $final_array = array_intersect_key($participant, array_flip($allowed));
@@ -320,7 +320,7 @@
                 $t_head .= "<th class = 'cols' > Gender </td>";
                 $t_head .= "<th class = 'cols' > Mobile Number </td>";
                 $t_head .= "<th class = 'cols' > Age </td>";
-                $t_head .= "<th class = 'cols' > Registration Table </td>";
+                //$t_head .= "<th class = 'cols' > Registration Table </td>";
                 //$t_head .= "<th class = 'cols' > Accomodation Venue </td>";
                 $t_head .= "<th class = 'cols' > Register Yourself </td>";
                 $t_head .= "</tr></thead>";
@@ -335,7 +335,7 @@
                 $t_head .= "<th class = 'cols' > Gender </td>";
                 //$t_head .= "<th class = 'cols' > Mobile Number </td>";
                 $t_head .= "<th class = 'cols' > Age </td>";
-                $t_head .= "<th class = 'cols' > Registration Table </td>";
+                //$t_head .= "<th class = 'cols' > Registration Table </td>";
                 $t_head .= "<th class = 'cols' > Accomodation Venue </td>";
                 $t_head .= "<th class = 'cols' > Register Yourself </td>";
                 $t_head .= "</tr></thead>";
@@ -362,7 +362,7 @@
                 $t_head .= "<th class = 'cols' > Gender </td>";
                 //$t_head .= "<th class = 'cols' > Mobile Number </td>";
                 $t_head .= "<th class = 'cols' > Age </td>";
-                $t_head .= "<th class = 'cols' > Registration Table </td>";
+                //$t_head .= "<th class = 'cols' > Registration Table </td>";
                 $t_head .= "<th class = 'cols' > Accomodation Venue </td>";
                 $t_head .= "<th class = 'cols' > Register Yourself </td>";
                 $t_head .= "</tr></thead>";
@@ -383,7 +383,7 @@
         $this->sql($sql);
         return $this->getResult();
         //For future use !! if any
-        $var = "<p></p><p></p><p></p><table class='table'>";
+        $var = "<p></p><p></p><p></p><table class='table table-sm'>";
         $var .= $this->header("report");
         foreach($this->getResult() as $participant){
             $var .= "<tr>";
