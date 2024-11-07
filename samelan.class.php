@@ -32,7 +32,7 @@ class Samelan{
         $this->mydb->updateAbsent('registration_details',['registered' => 'NOW()'], $keys);
         //echo "<br/>The number of registered marked Absent is/are:  ";
         //echo $this->mydb->getResult()[0];
-        $params = ['reg', 'group_id', 'participant', 'gender', 'age', 'reg_table' , 'acc_venue', 'attd'];
+        $params = ['reg', 'group_id', 'participant', 'gender', 'age' , 'acc_venue', 'attd'];
         $str = implode(", ", $params);
         echo "<br/>";
         $gid = $this->mydb->fetchGID($keys[0]);

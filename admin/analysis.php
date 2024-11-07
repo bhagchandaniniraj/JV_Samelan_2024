@@ -30,15 +30,35 @@
     <p></p>
     <p></p>
     <p></p>
+    
     <?php
         include_once '../db_connect.class.php';
         include_once 'navbar.php';
+        $disp[] = "<div class='row'><div class='col'></div><div class='col-8'>";
+        $disp[] = "</div><div class='col'></div></div>";
+        
+        echo $disp[0];
         echo "<h4>Day Wise - Gender Attendance Count</h4>";
         $mydb = new DBConnect();
         echo $mydb->displayAnalysis();
-        echo "<h4>Only Genderwise Attendance Count</h4>";
+        echo $disp[1];
+        
+        echo $disp[0];
+        echo "<h4>Statewise Attendance Count</h4>";
+        echo $mydb->stateWise();
+        echo "<span class='small'>*Note: DNA = 'Registered but Did Not Appear'</span>";
+        echo $disp[1];
+
+        $disp = array();
+        $disp[] = "<div class='row'><div class='col'></div><div class='col'>";
+        $disp[] = "</div><div class='col'></div></div>";
+        
+        echo $disp[0];
+        echo "<h4>Genderwise Attendance Count</h4>";
         echo $mydb->genderWise();
         echo "<span class='small'>*Note: DNA = 'Registered but Did Not Appear'</span>";
+        echo $disp[1];
+        
     ?>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
