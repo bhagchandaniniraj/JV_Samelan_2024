@@ -37,11 +37,17 @@
         $disp[] = "<div class='row'><div class='col'></div><div class='col-8'>";
         $disp[] = "</div><div class='col'></div></div>";
         
+        $mydb = new DBConnect();
         echo $disp[0];
         echo "<h4>Day Wise - Gender Attendance Count</h4>";
-        $mydb = new DBConnect();
         echo $mydb->displayAnalysis();
         echo $disp[1];
+        echo $disp[0];
+        echo "<h4>Individual Hostel Count</h4>";
+        echo $mydb->hostelCount();
+        echo $disp[1];
+
+        
         
         echo $disp[0];
         echo "<h4>Statewise Attendance Count</h4>";

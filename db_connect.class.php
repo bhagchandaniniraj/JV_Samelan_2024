@@ -30,6 +30,25 @@
             $table .="</tbody></table>";
             return $table;
         }
+        public function hostelCount(){
+            $j = 1; $sum = 0;
+            $sql = "SELECT case when  SUBSTRING_INDEX(acc_venue, ' ', 1) = '' then 'Do Not Require Accomodation' else SUBSTRING_INDEX(acc_venue, ' ', 1) end as Hostel, count(*) from registration_details where attd = 'P' group by SUBSTRING_INDEX(acc_venue, ' ',1)";
+            $this->sql($sql);
+            $table ="<table class='table table-striped table-bordered table-hover table-sm'>";
+            $table .= "<thead><tr><th scope='col'>#</th><th scope='col'>Hostel</th><th scope='col'>Count</th></tr></thead><tbody>";
+            foreach($this->getResult() as $counts){
+                $table .="<tr>";
+                $table .="<td>".$j++."</td>";
+                foreach($counts as $count){
+                    $table .= "<td>".$count."</td>";
+                }
+                $sum += $count;
+                $table .="</tr>";
+            }
+            $table .= "<b><td></td><td>Total:</td><td>$sum</td></b>";
+            $table .="</tbody></table>";
+            return $table;
+        }
         public function stateWise(){
             $j = 1; $sum = 0;
             $sql = "select state, case when attd = 'P' then 'Present' when attd = 'A' then 'Absent' when isnull(attd) then 'DNA' end as attendance, count(*) as total_count from registration_details group by soundex(state), attd";
