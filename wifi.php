@@ -42,6 +42,9 @@
                         <div class="alert alert-info mt-4" role="alert">
                             <strong>Note:</strong> If you do not have an internet ID, go to <a href="https://jivanvidhya.in" target="_blank" class="alert-link">jivanvidhya.in</a>, and enter your registered mobile number as the UID.
                         </div>
+                        <div class="alert alert-warning mt-4" role="alert">
+                            <strong>Important:</strong> This internet facility is available only within Atmiya University campus grounds and is not accessible from outside the campus or campus hostels.
+                        </div>
                         <div class="mt-3">
                             <p class="text-muted">* Please use the WiFi credentials responsibly and ensure you have an active account on the Jivanvidhya portal.</p>
                         </div>
