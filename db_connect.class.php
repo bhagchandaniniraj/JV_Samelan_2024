@@ -10,6 +10,49 @@
         private $result = array();
         private $rows;
 
+        public function emptyHostel(){
+            $j = 1;
+            $sum = 0;
+            $sql = "SELECT SUBSTRING_INDEX(acc_venue,' ',1) as hostel, count(*) as total from registration_details where (acc_venue <> '' and (attd is null or attd = 'A')) group by SUBSTRING_INDEX(acc_venue,' ',1) order by SUBSTRING_INDEX(acc_venue,' ',1)";
+            $this->sql($sql);
+            $table ="<table class='table table-striped table-bordered table-hover table-sm'>";
+            $table .= "<thead><tr><th scope='col'>#</th><th scope='col'>Hostel Name</th><th scope='col'>Hostel Empty Accomodation</th>
+                        </tr></thead><tbody>";
+            foreach($this->getResult() as $counts){
+                $table .="<tr>";
+                    $table .= "<td>".$j++."</td>";
+                    $table .= "<td>".$counts['hostel']."</td>";
+                    $table .= "<td>".$counts['total']."</td>";
+                $sum += $counts['total'];
+                $table .="</tr>";
+            }
+            $table .= "<td></td><td><b>Total:</b></td><td><b>$sum</b></td>";
+            $table .="</tbody></table>";
+            return $table;
+
+        }
+        public function emptyAccomodation(){
+            $j=1;
+            $sql = "SELECT * FROM `registration_details` where (acc_venue <> '' and (attd is null or attd = 'A')) order by registered desc";
+            $this->sql($sql);
+            $table ="<table class='table table-striped table-bordered table-hover table-sm'>";
+            $table .= "<thead><tr><th scope='col'>#</th><th scope='col'>Registration Number</th><th scope='col'>Absentees Name</th>
+                        <th scope='col'>Accomodation Location</th><th scope='col'>Registration Time</th><th scope='col'>Status</th></tr></thead><tbody>";
+            foreach($this->getResult() as $counts){
+                $table .="<tr>";
+                    $table .= "<td>".$j++."</td>";
+                    $table .= "<td>".$counts['reg']."</td>";
+                    $table .= "<td>".$counts['participant']."</td>";
+                    $table .= "<td>".$counts['acc_venue']."</td>";
+                    $table .= "<td>".$counts['registered']."</td>";
+                    $table .= "<td>".$counts['attd']."</td>";
+                //$sum += $count;
+                $table .="</tr>";
+            }
+            //$table .= "<b><td></td><td></td><td></td><td>Total:</td><td>$sum</td></b>";
+            $table .="</tbody></table>";
+            return $table;
+        }
         public function displayAnalysis(){
             $j=1; $sum = 0;
             $sql = "SELECT case when isnull(date(registered)) then ' - ' ELSE date(registered) end as dt, case when gender = 'M' then 'Male' when gender = 'F' then 'Female' when gender = 'K' then 'Kid(s)' end as gender, case when attd = 'P' then 'Present' when attd = 'A' then 'Absent' when isnull(attd) then 'Reg. Pending' end as attendance , count(*) as 'Total Count' FROM `registration_details` group by date(registered), gender, attd order by date(registered) desc";
