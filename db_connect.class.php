@@ -161,6 +161,22 @@
                 }
             }
         }
+        public function selectSp($table, $rows = "*", $join = null, $where=null,$order=null, $limit = null){
+                $sql = "SELECT $rows FROM $table ";
+                if($join != null){
+                    $sql .= " JOIN $join";
+                }
+                if($where != null){
+                    $sql .= " WHERE $where";
+                }
+                if($order != null){
+                    $sql .= " ORDER BY $order";
+                }
+                if($limit != null){
+                    $sql .= " LIMIT 0,$limit";
+                }
+                return  "$sql";
+            }
         public function select($table, $rows = "*", $join = null, $where=null,$order=null, $limit = null){
             if($this->tableExists($table)){
                 $sql = "SELECT $rows FROM $table ";
@@ -236,7 +252,7 @@
         }
         public function printTable($data){
             $i = 1;
-            $allowed = array ( 'reg', 'group_id', 'participant', 'gender', 'age',  'acc_venue', 'attd' );
+            $allowed = array ( 'reg', 'group_id', 'participant', 'gender', 'age' , 'acc_venue', 'attd' );
             //$skipped = array ( 'tot_mem','group_id','email','state','city','travel_mode','reg_table','travel_number','arrive_date','arrive_time','dep_date','dep_time','food_packets','acc_status','special_req','emergency_contact' , 'acc_venue');
             $final_array = array_intersect_key($data[0], array_flip($allowed));
             $form = <<<EOT
@@ -244,9 +260,9 @@
                     <input type="checkbox" name="tickme" value="<?=final_array['reg']" ?>
                 </form>
             EOT;
-            echo <<<STRT
+            echo <<<ESTRT
             <form action="submit_me.php" method="post">
-            STRT;
+            ESTRT;
 
             echo "<table class='table table-striped table-sm'>";
             echo $this->header("Acc");
@@ -278,12 +294,70 @@
                 }else{
                     echo <<<EOT
                     <input type="checkbox" name="$final_array[reg]" value="1" >
-                EOT;
+                    EOT;
                 }
                 echo "</td>";
                 echo "</tr>";
             }
             echo "</table>";
+            echo <<<FIN
+                <input type="submit" name="l_submit" class = "btn btn-primary" value="Register Here!">
+                </form>
+            FIN;
+
+        }
+        public function printSp($data){
+            $i = 1;
+            $allowed = array ( 'reg', 'group_id', 'participant', 'gender', 'age',  'username' , 'password', 'acc_venue', 'attd' );
+            //$skipped = array ( 'tot_mem','group_id','email','state','city','travel_mode','reg_table','travel_number','arrive_date','arrive_time','dep_date','dep_time','food_packets','acc_status','special_req','emergency_contact' , 'acc_venue');
+            $final_array = array_intersect_key($data[0], array_flip($allowed));
+            $form = <<<EOT
+                <form action="submit_me.php" method="post">
+                    <input type="checkbox" name="tickme" value="<?=final_array['reg']" ?>
+                </form>
+            EOT;
+            echo <<<STRT
+            <form action="submit_me.php" method="post">
+            STRT;
+            echo "<table class='table table-striped table-sm'>";
+            echo $this->header("internet");
+            
+            foreach($data as $participant){
+                $final_array = array_intersect_key($participant, array_flip($allowed));
+                echo "<tr><td>".$i++." </td>";
+                if($participant['attd'] != NULL){
+                    if($final_array['attd'] == "A"){
+                        $final_array['acc_venue'] = "---";
+                        $final_array['username'] = ' --- ';
+                        $final_array['password'] = ' --- ';
+                    }
+                    foreach($final_array as $key => $value){
+                        if($key != 'attd'){
+                            echo "<td>$value </td>";
+                        }
+                    }
+                }else{
+                    foreach($final_array as $key => $value){
+                        if($key != 'acc_venue'){
+                            echo "<td> $value </td>";
+                        }
+                    }
+                }
+                
+                echo "<td>";
+                if($final_array['attd'] <> NULL){
+                    if($final_array['attd'] =='A') { echo 'Marked Absent'; }
+                    else{ echo 'Marked Present'; }
+                }else{
+                    echo <<<EOT
+                    <input type="checkbox" name="$final_array[reg]" value="1" >
+                    EOT;
+                }
+                echo "</td>";
+                echo "</tr>";
+            }
+            echo "</table>";
+            echo "<p>To know how to connect the Wifi Click here : <a href='./wifi.php'> Instruction for Internet Connection</a></p>";
             echo <<<FIN
                 <input type="submit" name="l_submit" class = "btn btn-primary" value="Register Here!">
                 </form>
@@ -350,7 +424,7 @@
             echo "</table>";
         }
         public function header($status){
-            if($status == "admin"){
+            if(!strcmp($status, "admin")){
                 $t_head = "<thead><tr>";
                 $t_head .= "<th class = 'cols' > S No. </td>";
                 $t_head .= "<th class = 'cols' > Reg No. </td>";
@@ -365,7 +439,7 @@
                 $t_head .= "</tr></thead>";
                 return $t_head;
             }
-            else if($status == "Acc"){
+            else if(!strcmp($status, "Acc")){
                 $t_head = "<thead><tr>";
                 $t_head .= "<th class = 'cols' > S No. </td>";
                 $t_head .= "<th class = 'cols' > Reg. No. </td>";
@@ -379,7 +453,7 @@
                 $t_head .= "<th class = 'cols' > Register Yourself </td>";
                 $t_head .= "</tr></thead>";
                 return $t_head;
-            }else if ($status = "report"){
+            }else if (!strcmp($status, "report")){
                     $t_head = "<thead><tr>";
                     $t_head .= "<th class = 'cols' > S No. </td>";
                     $t_head .= "<th class = 'cols' > Registration No. </td>";
@@ -392,6 +466,21 @@
                     $t_head .= "<th class = 'cols' > Reg Timings </td>";
                     $t_head .= "</tr></thead>";
                     return $t_head;
+            }
+            else if(!strcmp($status, "internet")){
+                $t_head = "<thead><tr>";
+                $t_head .= "<th class = 'cols' > S No. </td>";
+                $t_head .= "<th class = 'cols' > Reg. No. </td>";
+                $t_head .= "<th class = 'cols' > Group ID </td>";
+                $t_head .= "<th class = 'cols' > Name of Participant </td>";
+                $t_head .= "<th class = 'cols' > Gender </td>";
+                $t_head .= "<th class = 'cols' > Age </td>";
+                $t_head .= "<th class = 'cols' > Accomodation Venue </td>";
+                $t_head .= "<th class = 'cols' > Int. Username </td>";
+                $t_head .= "<th class = 'cols' > Int. Password </td>";
+                $t_head .= "<th class = 'cols' > Register Yourself </td>";
+                $t_head .= "</tr></thead>";
+                return $t_head;
             }
             else{
                 $t_head = "<thead><tr>";

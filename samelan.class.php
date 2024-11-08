@@ -12,12 +12,25 @@ class Samelan{
         $sql = $this->mydb->select("registration_details", 'group_id' ,null, " uid = '$uid'");
         $this->mydb->sql($sql);
         $res = $this->mydb->getResult();
+        $gid = $res[0]['group_id'];
         if(count($res) >0 ){
-            $gid = $res[0]['group_id'];
-            $sql = $this->mydb->select("registration_details", "*" ,null, " group_id = '$gid'");
+            $sql = "select case when attd is null then 'false' else 'true' end as flag from registration_details where group_id = '$gid'";
             $this->mydb->sql($sql);
-            $res = $this->mydb->getResult();
-            $this->mydb->printTable($res);
+            $result = $this->mydb->getResult();
+            $flag =  $result[0]['flag'];
+            if(strcmp($flag, "false")){
+                $table = 'registration_details as r';
+                $sql = $this->mydb->selectSp($table, "r.*, i.username, i.password" ,' internet_ids i on r.reg = i.reg ', " group_id = '$gid'");
+                $this->mydb->sql($sql);
+                $res = $this->mydb->getResult();
+                $this->mydb->printSp($res);
+            }else{
+                $table = 'registration_details';
+                $sql = $this->mydb->select($table, "*" ,null, " group_id = '$gid'");
+                $this->mydb->sql($sql);
+                $res = $this->mydb->getResult();
+                $this->mydb->printTable($res);
+            }
         }else{
             echo "No Data Found!!!";
             echo <<<GOBACK
